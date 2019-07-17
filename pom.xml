@@ -11,8 +11,8 @@
 	<groupId>com.moviex</groupId>
 	<artifactId>MovieX</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>Moviex</name>
+	<packaging>jar</packaging>
+	<name>MovieX</name>
 	<description>Project API MovieX</description>
 
 	<properties>
