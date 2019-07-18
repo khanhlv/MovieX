@@ -15,7 +15,6 @@ import com.moviex.dto.response.JwtResponse;
 import com.moviex.service.JwtUserDetailsService;
 
 @RestController
-@CrossOrigin
 public class JwtAuthenticationController {
 
     @Autowired

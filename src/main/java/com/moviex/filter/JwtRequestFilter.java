@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.moviex.config.JwtTokenUtil;
-import com.moviex.exception.AuthorizationException;
 import com.moviex.service.JwtUserDetailsService;
 import io.jsonwebtoken.ExpiredJwtException;
+
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
