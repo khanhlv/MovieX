@@ -2,10 +2,12 @@ package com.moviex.dto.common;
 
 import java.util.Date;
 
-public class CustomErrorResponse {
-    private Date timestamp;
-    private int status;
-    private String error;
+import org.apache.commons.lang3.StringUtils;
+
+public class ResponseDto {
+    private Date timestamp = new Date();
+    private int status = 1;
+    private String error = StringUtils.EMPTY;
 
     public Date getTimestamp() {
         return timestamp;
