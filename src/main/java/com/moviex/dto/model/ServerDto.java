@@ -1,8 +1,12 @@
 package com.moviex.dto.model;
 
+import java.util.List;
+
 public class ServerDto {
     private String id;
     private String serverName;
+
+    private List<FilmEpisodeServerDto> data;
 
     public String getId() {
         return id;
@@ -18,5 +22,13 @@ public class ServerDto {
 
     public void setServerName(String serverName) {
         this.serverName = serverName;
+    }
+
+    public List<FilmEpisodeServerDto> getData() {
+        return data;
+    }
+
+    public void setData(List<FilmEpisodeServerDto> data) {
+        this.data = data;
     }
 }

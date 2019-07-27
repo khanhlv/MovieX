@@ -8,6 +8,8 @@ public class FilmEpisodeServerDto {
     private String filmEpisodeServerHD;
     private String filmEpisodeServerSD;
 
+    private FilmEpisodeDto filmEpisodeInfo;
+
     public String getId() {
         return id;
     }
@@ -54,5 +56,13 @@ public class FilmEpisodeServerDto {
 
     public void setFilmEpisodeServerSD(String filmEpisodeServerSD) {
         this.filmEpisodeServerSD = filmEpisodeServerSD;
+    }
+
+    public FilmEpisodeDto getFilmEpisodeInfo() {
+        return filmEpisodeInfo;
+    }
+
+    public void setFilmEpisodeInfo(FilmEpisodeDto filmEpisodeInfo) {
+        this.filmEpisodeInfo = filmEpisodeInfo;
     }
 }

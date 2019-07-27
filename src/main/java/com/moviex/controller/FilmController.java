@@ -2,12 +2,16 @@ package com.moviex.controller;
 
 import com.moviex.dto.model.FilmDto;
 import com.moviex.dto.model.FilmEpisodeDto;
-import com.moviex.dto.response.FilmEpisodeResponseDto;
+import com.moviex.dto.model.FilmEpisodeServerDto;
+import com.moviex.dto.model.ServerDto;
 import com.moviex.dto.response.FilmResponseDto;
+import com.moviex.dto.response.ServerResponseDto;
 import com.moviex.model.Film;
-import com.moviex.model.FilmEpisode;
+import com.moviex.model.FilmEpisodeServer;
 import com.moviex.service.FilmEpisodeService;
 import com.moviex.service.FilmService;
+import com.moviex.service.ServerService;
+import com.moviex.service.repository.FilmEpisodeServerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +30,12 @@ public class FilmController {
 
     @Autowired
     private FilmEpisodeService filmEpisodeService;
+
+    @Autowired
+    private ServerService serverService;
+
+    @Autowired
+    private FilmEpisodeServerRepository filmEpisodeServerRepository;
 
     @GetMapping("/list")
     public FilmResponseDto list(
@@ -74,26 +84,51 @@ public class FilmController {
     }
 
     @GetMapping("/episode")
-    public FilmEpisodeResponseDto episode(
+    public ServerResponseDto episode(
             @RequestParam(name = "filmId", defaultValue = "0", required = false) Long filmId) {
-        List<FilmEpisodeDto> listData = new ArrayList<>();
-        FilmEpisodeResponseDto responseDto = new FilmEpisodeResponseDto();
+        List<ServerDto> listData = new ArrayList<>();
+        ServerResponseDto responseDto = new ServerResponseDto();
 
-        filmEpisodeService.findByFilmId(filmId).forEach(v -> toModelEpisode(v, listData));
+        serverService.findAll().forEach(d -> {
+            final ServerDto serverDto = new ServerDto();
+            serverDto.setId(d.getServerId().toString());
+            serverDto.setServerName(d.getServerName().toString());
+            List<FilmEpisodeServerDto> listData2 = new ArrayList<>();
+            filmEpisodeService.findByFilmId(filmId).forEach(v -> {
+                FilmEpisodeServer filmEpisodeServer = filmEpisodeServerRepository.findByFilmEpisodeIdAndAndServerId(v.getFilmEpisodeId(), d.getServerId());
+
+                if (filmEpisodeServer == null) {
+                    return;
+                }
+
+                final FilmEpisodeServerDto filmEpisodeServerDto = new FilmEpisodeServerDto();
+                filmEpisodeServerDto.setId(filmEpisodeServer.getFilmEpisodeServerId().toString());
+                filmEpisodeServerDto.setServerId(filmEpisodeServer.getServerId().toString());
+                filmEpisodeServerDto.setEpisodePart(filmEpisodeServer.getEpisodePart().toString());
+                filmEpisodeServerDto.setFilmEpisodeId(filmEpisodeServer.getFilmEpisodeId().toString());
+                filmEpisodeServerDto.setFilmEpisodeServerHD(filmEpisodeServer.getFilmEpisodeServerHD());
+                filmEpisodeServerDto.setFilmEpisodeServerSD(filmEpisodeServer.getFilmEpisodeServerSD());
+
+                final FilmEpisodeDto filmDto = new FilmEpisodeDto();
+                filmDto.setId(v.getFilmEpisodeId().toString());
+                filmDto.setFilmId(v.getFilmId().toString());
+                filmDto.setFilmEpisodeName(v.getFilmEpisodeName());
+                filmDto.setFilmEpisodeOrder(v.getFilmEpisodeOrder().toString());
+                filmDto.setFilmEpisodeView(v.getFilmEpisodeView().toString());
+
+                filmEpisodeServerDto.setFilmEpisodeInfo(filmDto);
+
+                listData2.add(filmEpisodeServerDto);
+            });
+
+            serverDto.setData(listData2);
+
+            listData.add(serverDto);
+        });
 
         responseDto.setData(listData);
 
         return responseDto;
-    }
-
-    private void toModelEpisode(FilmEpisode film, List<FilmEpisodeDto> listData) {
-        final FilmEpisodeDto filmDto = new FilmEpisodeDto();
-        filmDto.setId(film.getFilmEpisodeId().toString());
-        filmDto.setFilmId(film.getFilmId().toString());
-        filmDto.setFilmEpisodeName(film.getFilmEpisodeName());
-        filmDto.setFilmEpisodeOrder(film.getFilmEpisodeOrder().toString());
-        filmDto.setFilmEpisodeView(film.getFilmEpisodeView().toString());
-        listData.add(filmDto);
     }
 
     private void toModel(Film film, List<FilmDto> listData) {
@@ -103,6 +138,5 @@ public class FilmController {
         filmDto.setFilmNameEN(film.getFilmNameEN());
         listData.add(filmDto);
     }
-
 
 }

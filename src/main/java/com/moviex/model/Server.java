@@ -1,8 +1,7 @@
 package com.moviex.model;
 
-import java.util.Date;
-
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "SERVER")
@@ -13,7 +12,7 @@ public class Server {
     private Long serverId;
 
     @Column(name = "SERVER_NAME")
-    private Long serverName;
+    private String serverName;
 
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
@@ -40,11 +39,11 @@ public class Server {
         this.serverId = serverId;
     }
 
-    public Long getServerName() {
+    public String getServerName() {
         return serverName;
     }
 
-    public void setServerName(Long serverName) {
+    public void setServerName(String serverName) {
         this.serverName = serverName;
     }
 

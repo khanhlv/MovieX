@@ -1,11 +1,10 @@
 package com.moviex.service.repository;
 
-import java.util.Collection;
-
+import com.moviex.model.Server;
 import org.springframework.data.repository.CrudRepository;
 
-import com.moviex.model.Server;
+import java.util.Collection;
 
 public interface ServerRepository extends CrudRepository<Server, Long> {
-    Collection<Server> findByStatusOOrderByServerIdAsc(Long status);
+    Collection<Server> findByStatusOrderByServerIdAsc(Long status);
 }

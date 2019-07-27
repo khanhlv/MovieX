@@ -1,22 +1,23 @@
 package com.moviex.parser;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.moviex.parser.bean.KPhimSource;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.moviex.parser.bean.KPhimSource;
-
+@Component
 public class KPhim {
-    public void start(String url) throws Exception {
+    public List<KPhimSource> start(String url) throws Exception {
         Document document = Jsoup.connect(url).get();
 
         Elements els = document.select(".kphim-servers .server-name");
@@ -52,6 +53,8 @@ public class KPhim {
             System.out.println(v.getType());
             System.out.println("------------------------------");
         });
+
+        return listKPhim;
     }
 
     public static void main(String[] args) throws Exception {

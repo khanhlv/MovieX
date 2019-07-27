@@ -1,8 +1,7 @@
 package com.moviex.model;
 
-import java.util.Date;
-
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "FILM_EPISODE_SERVER")
@@ -16,16 +15,16 @@ public class FilmEpisodeServer {
     private Long filmEpisodeId;
 
     @Column(name = "SERVER_ID")
-    private String serverId;
+    private Long serverId;
 
     @Column(name = "EPISODE_PART")
     private Long episodePart;
 
     @Column(name = "FILM_EPISODE_SERVER_HD")
-    private Long filmEpisodeServerHD;
+    private String filmEpisodeServerHD;
 
     @Column(name = "FILM_EPISODE_SERVER_SD")
-    private Long filmEpisodeServerSD;
+    private String filmEpisodeServerSD;
 
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,11 +59,11 @@ public class FilmEpisodeServer {
         this.filmEpisodeId = filmEpisodeId;
     }
 
-    public String getServerId() {
+    public Long getServerId() {
         return serverId;
     }
 
-    public void setServerId(String serverId) {
+    public void setServerId(Long serverId) {
         this.serverId = serverId;
     }
 
@@ -76,19 +75,19 @@ public class FilmEpisodeServer {
         this.episodePart = episodePart;
     }
 
-    public Long getFilmEpisodeServerHD() {
+    public String getFilmEpisodeServerHD() {
         return filmEpisodeServerHD;
     }
 
-    public void setFilmEpisodeServerHD(Long filmEpisodeServerHD) {
+    public void setFilmEpisodeServerHD(String filmEpisodeServerHD) {
         this.filmEpisodeServerHD = filmEpisodeServerHD;
     }
 
-    public Long getFilmEpisodeServerSD() {
+    public String getFilmEpisodeServerSD() {
         return filmEpisodeServerSD;
     }
 
-    public void setFilmEpisodeServerSD(Long filmEpisodeServerSD) {
+    public void setFilmEpisodeServerSD(String filmEpisodeServerSD) {
         this.filmEpisodeServerSD = filmEpisodeServerSD;
     }
 
