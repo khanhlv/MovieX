@@ -42,7 +42,8 @@ public class KPhim {
         Document documentFilm = Jsoup.connect("http://www.kphim.tv/player/"+ vid + mid +"/" + sid + mid + "/" + new Date().getTime()).data(data).post();
 
         String film = documentFilm.toString().replaceAll("\\s+", "");
-        String keyIndexOf = "jwplayer('hkplayer178342').setup({sources:";
+        String keyIndexOf = "jwplayer('hkplayer" + sid + "').setup({sources:";
+//        System.out.println(film);
         film = film.substring(film.indexOf(keyIndexOf) + keyIndexOf.length(), film.indexOf("tracks:[]") - 1).replaceAll("\\s+", "");
 
         List<KPhimSource> listKPhim = new Gson().fromJson(film, new TypeToken<List<KPhimSource>>(){}.getType());
@@ -58,6 +59,6 @@ public class KPhim {
     }
 
     public static void main(String[] args) throws Exception {
-        new KPhim().start("http://www.kphim.tv/xem-phim/pham-chat-quy-co-ep-2-vietsub.html");
+        new KPhim().start("http://www.kphim.tv/xem-phim/lop-hoc-gia-doi-ep-1-vietsub.html");
     }
 }
