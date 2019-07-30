@@ -1,7 +1,8 @@
 package com.moviex.model;
 
-import javax.persistence.*;
 import java.util.Date;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "FILM")
@@ -30,7 +31,7 @@ public class Film extends BaseModel {
     private String filmImageMedium;
 
     @Column(name = "FILM_TRAILER")
-    private String filmTraller;
+    private String filmTrailer;
 
     @Column(name = "FILM_VIEW")
     private Long filmView;
@@ -115,12 +116,12 @@ public class Film extends BaseModel {
         this.filmImageMedium = filmImageMedium;
     }
 
-    public String getFilmTraller() {
-        return filmTraller;
+    public String getFilmTrailer() {
+        return filmTrailer;
     }
 
-    public void setFilmTraller(String filmTraller) {
-        this.filmTraller = filmTraller;
+    public void setFilmTrailer(String filmTrailer) {
+        this.filmTrailer = filmTrailer;
     }
 
     public Long getFilmView() {

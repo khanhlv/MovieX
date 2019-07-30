@@ -1,9 +1,16 @@
 package com.moviex.controller;
 
-import com.moviex.dto.model.FilmDto;
-import com.moviex.dto.model.FilmEpisodeDto;
-import com.moviex.dto.model.FilmEpisodeServerDto;
-import com.moviex.dto.model.ServerDto;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.moviex.dto.model.*;
+import com.moviex.dto.response.FilmCategoryResponseDto;
 import com.moviex.dto.response.FilmResponseDto;
 import com.moviex.dto.response.ServerResponseDto;
 import com.moviex.model.Film;
@@ -12,14 +19,6 @@ import com.moviex.service.FilmEpisodeService;
 import com.moviex.service.FilmService;
 import com.moviex.service.ServerService;
 import com.moviex.service.repository.FilmEpisodeServerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/film")
@@ -51,15 +50,29 @@ public class FilmController {
         return responseDto;
     }
 
+    @GetMapping("/listIMDB")
+    public FilmCategoryResponseDto listIMDB(
+            @RequestParam(name = "page", defaultValue = "0", required = false) Long page,
+            @RequestParam(name = "limit", defaultValue = "10", required = false) Long limit) {
+        List<FilmCategoryDto> listData = new ArrayList<>();
+        FilmCategoryResponseDto responseDto = new FilmCategoryResponseDto();
+
+        filmService.findAllIMDBWithPagination(page, limit).forEach(v -> toModelCategory(v, listData));
+
+        responseDto.setData(listData);
+
+        return responseDto;
+    }
+
     @GetMapping("/listByCategory")
-    public FilmResponseDto listByCategory(
+    public FilmCategoryResponseDto listByCategory(
             @RequestParam(name = "categoryId", defaultValue = "0", required = false) Long categoryId,
             @RequestParam(name = "page", defaultValue = "0", required = false) Long page,
             @RequestParam(name = "limit", defaultValue = "10", required = false) Long limit) {
-        List<FilmDto> listData = new ArrayList<>();
-        FilmResponseDto responseDto = new FilmResponseDto();
+        List<FilmCategoryDto> listData = new ArrayList<>();
+        FilmCategoryResponseDto responseDto = new FilmCategoryResponseDto();
 
-        filmService.findByCategoryWithPagination(categoryId, page, limit).forEach(v -> toModel(v, listData));
+        filmService.findByCategoryWithPagination(categoryId, page, limit).forEach(v -> toModelCategory(v, listData));
 
         responseDto.setData(listData);
 
@@ -136,6 +149,19 @@ public class FilmController {
         filmDto.setId(film.getFilmId().toString());
         filmDto.setFilmNameVN(film.getFilmNameVN());
         filmDto.setFilmNameEN(film.getFilmNameEN());
+        listData.add(filmDto);
+    }
+
+    private void toModelCategory(Film film, List<FilmCategoryDto> listData) {
+        final FilmCategoryDto filmDto = new FilmCategoryDto();
+        filmDto.setId(film.getFilmId().toString());
+        filmDto.setFilmNameVN(film.getFilmNameVN());
+        filmDto.setFilmNameEN(film.getFilmNameEN());
+        filmDto.setFilmDescription(film.getFilmDescription());
+        filmDto.setFilmImageMedium(film.getFilmImageMedium());
+        filmDto.setFilmImageThumb(film.getFilmImageThumb());
+        filmDto.setFilmIMDB(film.getFilmIMDB().toString());
+        filmDto.setFilmView(film.getFilmView().toString());
         listData.add(filmDto);
     }
 

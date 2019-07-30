@@ -1,14 +1,15 @@
 package com.moviex.service;
 
-import com.moviex.model.Film;
-import com.moviex.service.repository.FilmRepository;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.moviex.model.Film;
+import com.moviex.service.repository.FilmRepository;
 
 @Service
 public class FilmService {
@@ -22,6 +23,16 @@ public class FilmService {
         Pageable pageable = PageRequest.of(page.intValue(), limit.intValue());
 
         filmRepository.findAllWithPagination(pageable).forEach(filmList::add);
+
+        return filmList;
+    }
+
+    public List<Film> findAllIMDBWithPagination(Long page, Long limit){
+
+        List<Film> filmList = new ArrayList<>();
+        Pageable pageable = PageRequest.of(page.intValue(), limit.intValue());
+
+        filmRepository.findAllIMDBWithPagination(pageable).forEach(filmList::add);
 
         return filmList;
     }
