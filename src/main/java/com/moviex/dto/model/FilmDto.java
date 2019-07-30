@@ -15,7 +15,7 @@ public class FilmDto {
 
     private String filmImageMedium;
 
-    private String filmTraller;
+    private String filmTrailer;
 
     private String filmView;
 
@@ -89,12 +89,12 @@ public class FilmDto {
         this.filmImageMedium = filmImageMedium;
     }
 
-    public String getFilmTraller() {
-        return filmTraller;
+    public String getFilmTrailer() {
+        return filmTrailer;
     }
 
-    public void setFilmTraller(String filmTraller) {
-        this.filmTraller = filmTraller;
+    public void setFilmTrailer(String filmTrailer) {
+        this.filmTrailer = filmTrailer;
     }
 
     public String getFilmView() {

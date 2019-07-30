@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.moviex.dto.model.*;
 import com.moviex.dto.response.FilmCategoryResponseDto;
+import com.moviex.dto.response.FilmHomeResponseDto;
 import com.moviex.dto.response.FilmResponseDto;
 import com.moviex.dto.response.ServerResponseDto;
 import com.moviex.model.Film;
@@ -44,6 +45,22 @@ public class FilmController {
         FilmResponseDto responseDto = new FilmResponseDto();
 
         filmService.findAllWithPagination(page, limit).forEach(v -> toModel(v, listData));
+
+        responseDto.setData(listData);
+
+        return responseDto;
+    }
+
+    @GetMapping("/home")
+    public FilmHomeResponseDto home() {
+        List<FilmHomeDto> listData = new ArrayList<>();
+        FilmHomeResponseDto responseDto = new FilmHomeResponseDto();
+
+        filmHomeCategory(16L, "Phim đề cử", listData);
+        filmHomeCategory(1L, "Phim chiếu rạp", listData);
+        filmHomeCategory(2L, "Phim lẻ mới", listData);
+        filmHomeCategory(3L, "Phim bộ mới", listData);
+        filmHomeCategory(11L, "Phim hoạt hình mới", listData);
 
         responseDto.setData(listData);
 
@@ -149,6 +166,17 @@ public class FilmController {
         filmDto.setId(film.getFilmId().toString());
         filmDto.setFilmNameVN(film.getFilmNameVN());
         filmDto.setFilmNameEN(film.getFilmNameEN());
+        filmDto.setFilmDescription(film.getFilmDescription());
+        filmDto.setFilmImageMedium(film.getFilmImageMedium());
+        filmDto.setFilmImageThumb(film.getFilmImageThumb());
+        filmDto.setFilmIMDB(film.getFilmIMDB().toString());
+        filmDto.setFilmView(film.getFilmView().toString());
+        filmDto.setFilmResolution(film.getFilmResolution());
+        filmDto.setFilmContent(film.getFilmContent());
+        filmDto.setFilmCountry(film.getFilmCountry());
+        filmDto.setFilmTime(film.getFilmTime().toString());
+        filmDto.setFilmTrailer(film.getFilmTrailer());
+        filmDto.setFilmYear(film.getFilmYear());
         listData.add(filmDto);
     }
 
@@ -163,6 +191,18 @@ public class FilmController {
         filmDto.setFilmIMDB(film.getFilmIMDB().toString());
         filmDto.setFilmView(film.getFilmView().toString());
         listData.add(filmDto);
+    }
+
+    private void filmHomeCategory(Long categoryId, String name, List<FilmHomeDto> listData) {
+        final FilmHomeDto filmHomeDto = new FilmHomeDto();
+        filmHomeDto.setId(categoryId.toString());
+        filmHomeDto.setName(name);
+        List<FilmCategoryDto> dtoList = new ArrayList<>();
+        filmService.findByCategoryWithPagination(categoryId, 0L, 20L).forEach(v -> toModelCategory(v, dtoList));
+
+        filmHomeDto.setMovies(dtoList);
+
+        listData.add(filmHomeDto);
     }
 
 }
