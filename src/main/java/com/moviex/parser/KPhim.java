@@ -1,24 +1,29 @@
 package com.moviex.parser;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.moviex.parser.bean.KPhimSource;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.springframework.stereotype.Component;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Component;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.moviex.common.Const;
+import com.moviex.common.UserAgent;
+import com.moviex.parser.bean.KPhimSource;
+
 @Component
 public class KPhim {
     public List<KPhimSource> start(String url) throws Exception {
-        Document document = Jsoup.connect(url).get();
+        Document document = Jsoup.connect(url)
+                .userAgent(UserAgent.getUserAgent())
+                .timeout(Const.TIMEOUT).get();
 
         Elements els = document.select(".kphim-servers .server-name");
 
@@ -58,7 +63,31 @@ public class KPhim {
         return listKPhim;
     }
 
+    public void readList(String url) throws Exception {
+        Document document = Jsoup.connect(url)
+                .userAgent(UserAgent.getUserAgent())
+                .timeout(Const.TIMEOUT).get();
+
+        Elements elements = document.select("#ketquatimkiem .search-movie-item .inner");
+        elements.stream().forEach(v -> {
+            System.out.println(v.select(".text-nowrap").text());
+            System.out.println(v.attr("href"));
+            System.out.println(v.select("img").attr("src"));
+        });
+    }
+
+    public void readDetail(String url) throws Exception {
+        Document document = Jsoup.connect(url)
+                .userAgent(UserAgent.getUserAgent())
+                .timeout(Const.TIMEOUT).get();
+        System.out.println(document);
+
+
+        System.out.println(document.select(".movie-info-sidebar"));
+    }
+
     public static void main(String[] args) throws Exception {
-        new KPhim().start("http://www.kphim.tv/xem-phim/lop-hoc-gia-doi-ep-1-vietsub.html");
+//        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-han-quoc-z1.html");
+        new KPhim().readDetail("http://www.kphim.tv/phim-nguoi-giam-sat-vietsub.html");
     }
 }
