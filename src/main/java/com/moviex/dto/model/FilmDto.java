@@ -33,6 +33,12 @@ public class FilmDto {
 
     private String filmResolution;
 
+    private String[] categories;
+
+    private String[] actor;
+
+    private String[] company;
+
     public String getId() {
         return id;
     }
@@ -159,5 +165,29 @@ public class FilmDto {
 
     public void setFilmResolution(String filmResolution) {
         this.filmResolution = filmResolution;
+    }
+
+    public String[] getCategories() {
+        return categories;
+    }
+
+    public void setCategories(String[] categories) {
+        this.categories = categories;
+    }
+
+    public String[] getActor() {
+        return actor;
+    }
+
+    public void setActor(String[] actor) {
+        this.actor = actor;
+    }
+
+    public String[] getCompany() {
+        return company;
+    }
+
+    public void setCompany(String[] company) {
+        this.company = company;
     }
 }

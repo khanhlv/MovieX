@@ -1,22 +1,20 @@
 package com.moviex.parser;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.moviex.common.Const;
+import com.moviex.common.UserAgent;
+import com.moviex.parser.bean.KPhimList;
+import com.moviex.parser.bean.KPhimSource;
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.moviex.common.Const;
-import com.moviex.common.UserAgent;
-import com.moviex.parser.bean.KPhimSource;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class KPhim {
@@ -63,27 +61,58 @@ public class KPhim {
         return listKPhim;
     }
 
-    public void readList(String url) throws Exception {
+    public List<KPhimList> readList(String url) throws Exception {
+        List<KPhimList> phimLists = new ArrayList<>();
         Document document = Jsoup.connect(url)
                 .userAgent(UserAgent.getUserAgent())
                 .timeout(Const.TIMEOUT).get();
 
         Elements elements = document.select("#ketquatimkiem .search-movie-item .inner");
         elements.stream().forEach(v -> {
-            System.out.println(v.select(".text-nowrap").text());
-            System.out.println(v.attr("href"));
-            System.out.println(v.select("img").attr("src"));
+            KPhimList kPhimList = new KPhimList();
+            kPhimList.setTitle(StringUtils.trim(v.select(".text-nowrap").text()));
+            kPhimList.setLink(StringUtils.trim(v.attr("href")));
+            kPhimList.setImage(v.select("img").attr("src"));
+            phimLists.add(kPhimList);
+
+            System.out.println(kPhimList.getTitle());
+            System.out.println(kPhimList.getLink());
+            System.out.println(kPhimList.getImage());
         });
+
+        return phimLists;
     }
 
     public void readDetail(String url) throws Exception {
         Document document = Jsoup.connect(url)
                 .userAgent(UserAgent.getUserAgent())
                 .timeout(Const.TIMEOUT).get();
-        System.out.println(document);
 
+        Elements elements = document.select(".movie-info-sidebar .common-list");
+        Elements elementsActor = document.select(".actor-info a");
+        Elements elementsEpisodes = document.select(".episodes a");
 
-        System.out.println(document.select(".movie-info-sidebar"));
+        elementsActor.stream().forEach(v -> {
+            System.out.println(v.attr("href"));
+            System.out.println(StringUtils.trim(v.text()));
+        });
+
+        elements.stream().forEach(v -> {
+            if (StringUtils.equals(v.select("span").text(), "Đạo Diễn:")) {
+                System.out.println(v.select("a").attr("href"));
+                System.out.println(StringUtils.trim(v.select("a").text()));
+            }
+
+            if (StringUtils.equals(v.select("span").text(), "Quốc Gia:")) {
+                System.out.println(v.select("a").attr("href"));
+                System.out.println(StringUtils.trim(v.select("a").text()));
+            }
+        });
+
+        elementsEpisodes.stream().forEach(v -> {
+            System.out.println(v.attr("href"));
+            System.out.println(StringUtils.trim(v.text()));
+        });
     }
 
     public static void main(String[] args) throws Exception {
