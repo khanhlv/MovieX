@@ -4,11 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.ApiKey;
-import springfox.documentation.service.Contact;
-import springfox.documentation.service.SecurityScheme;
+import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -19,10 +17,18 @@ import java.util.*;
 public class SwaggerConfig {
     private static Set<String> producesAndConsumes = new HashSet<>(Arrays.asList("application/json"));
 
+    private List<SecurityReference> defaultAuth() {
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        return Arrays.asList(new SecurityReference("X-TOKEN-AUTH", authorizationScopes));
+    }
+
     @Bean
     public Docket api() {
-        List<SecurityScheme> schemeList = new ArrayList<>();
-        schemeList.add(new ApiKey("X-TOKEN-AUTH", "test", "header"));
+
+        SecurityContext securityContexts = SecurityContext.builder().securityReferences(defaultAuth()).build();
+
         return new Docket(DocumentationType.SWAGGER_2)
                 .produces(producesAndConsumes)
                 .consumes(producesAndConsumes)
@@ -30,7 +36,8 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("com.moviex.controller"))
                 .paths(PathSelectors.any())
                 .build()
-                .securitySchemes(schemeList)
+                .securitySchemes(Collections.singletonList(new ApiKey("X-TOKEN-AUTH", "X-TOKEN-AUTH", "header")))
+                .securityContexts(Collections.singletonList(securityContexts))
                 .apiInfo(apiInfo());
     }
 

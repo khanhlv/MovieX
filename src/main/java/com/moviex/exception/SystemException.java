@@ -1,9 +1,9 @@
 package com.moviex.exception;
 
 import com.moviex.dto.common.ResponseDto;
-import org.springframework.http.HttpStatus;
 
 public class SystemException extends RuntimeException {
+
     private ResponseDto responseDto;
 
     public SystemException(ResponseDto responseDto) {
@@ -15,8 +15,18 @@ public class SystemException extends RuntimeException {
         this.responseDto = responseDto;
     }
 
+    public SystemException(String message, Throwable cause, ResponseDto responseDto) {
+        super(message, cause);
+        this.responseDto = responseDto;
+    }
+
+    public SystemException(Throwable cause, ResponseDto responseDto) {
+        super(cause);
+        this.responseDto = responseDto;
+    }
+
+
     public ResponseDto getResponseDto() {
-        responseDto.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
         return responseDto;
     }
 

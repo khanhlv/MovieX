@@ -1,7 +1,6 @@
 package com.moviex.exception;
 
 import com.moviex.dto.common.ResponseDto;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,7 @@ public class CustomizedExceptionHandler {
     public final ResponseDto handleException(SystemException ex, WebRequest request) {
 
         ResponseDto customErrorResponse = new ResponseDto();
-        customErrorResponse.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+        customErrorResponse.setStatus(ex.getResponseDto().getStatus());
         customErrorResponse.setError(ex.getResponseDto().getError());
         customErrorResponse.setTimestamp(new Date());
 

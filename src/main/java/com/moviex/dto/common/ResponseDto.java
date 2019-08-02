@@ -1,8 +1,8 @@
 package com.moviex.dto.common;
 
-import java.util.Date;
-
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Date;
 
 public class ResponseDto {
     private Date timestamp = new Date();
@@ -31,5 +31,15 @@ public class ResponseDto {
 
     public void setError(String error) {
         this.error = error;
+    }
+
+    public ResponseDto withError(String error) {
+        this.error = error;
+        return this;
+    }
+
+    public ResponseDto withStatus(int status) {
+        this.status = status;
+        return this;
     }
 }
