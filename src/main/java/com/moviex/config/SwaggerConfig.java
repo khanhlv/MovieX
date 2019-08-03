@@ -1,5 +1,7 @@
 package com.moviex.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.PathSelectors;
@@ -15,6 +17,8 @@ import java.util.*;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+    private final static Logger LOGGER = LoggerFactory.getLogger(SwaggerConfig.class);
+
     private static Set<String> producesAndConsumes = new HashSet<>(Arrays.asList("application/json"));
 
     private List<SecurityReference> defaultAuth() {
@@ -24,10 +28,18 @@ public class SwaggerConfig {
         return Arrays.asList(new SecurityReference("X-TOKEN-AUTH", authorizationScopes));
     }
 
+    private SecurityContext securityContext() {
+        return SecurityContext
+                .builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.regex("/.*"))
+                .build();
+    }
+
     @Bean
     public Docket api() {
 
-        SecurityContext securityContexts = SecurityContext.builder().securityReferences(defaultAuth()).build();
+        LOGGER.debug("Starting Swagger");
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .produces(producesAndConsumes)
@@ -37,17 +49,18 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(Collections.singletonList(new ApiKey("X-TOKEN-AUTH", "X-TOKEN-AUTH", "header")))
-                .securityContexts(Collections.singletonList(securityContexts))
-                .apiInfo(apiInfo());
+                .securityContexts(Collections.singletonList(securityContext()))
+                .apiInfo(apiInfo())
+                .useDefaultResponseMessages(false);
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "MovieX REST API",
-                "Some custom description of API.",
+                "List API of project MovieX (Android & iOS).",
                 "1.0",
-                "Terms of service",
-                new Contact("KhanhLV", "moviex.com", "khanhlv.group1@gmail.com"),
-                "License of API", "moviex.com", Collections.emptyList());
+                "http://moviex.com",
+                new Contact("KhanhLV", "http://moviex.com", "khanhlv.group1@gmail.com"),
+                "License of API", "http://moviex.com", Collections.emptyList());
     }
 }
