@@ -9,6 +9,7 @@ import com.moviex.parser.bean.KPhimDetail;
 import com.moviex.parser.bean.KPhimList;
 import com.moviex.service.CrawlerService;
 import com.moviex.service.FilmService;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class CrawlerController {
                         if (film == null) {
                             KPhimDetail kPhimDetail = kPhim.readDetail(v.getLink());
 
-                            crawlerService.addFilm(kPhimDetail);
+                            crawlerService.addFilm(kPhimDetail, NumberUtils.toLong(requestDto.getCategory()));
                         }
                         LOGGER.info("#INSERT_LINK: " + v.getLink());
                     } catch (Exception ex) {

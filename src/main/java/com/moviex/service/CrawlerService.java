@@ -41,7 +41,7 @@ public class CrawlerService {
     @Autowired
     private FilmActorRepository filmActorRepository;
 
-    public void addFilm(KPhimDetail kPhimDetail){
+    public void addFilm(KPhimDetail kPhimDetail, Long categoryId){
         Film film = new Film();
         film.setFilmNameVN(kPhimDetail.getFilmNameVN());
         film.setFilmNameEN(kPhimDetail.getFilmNameEN());
@@ -64,7 +64,7 @@ public class CrawlerService {
 
         FilmCategory filmCategory = new FilmCategory();
         filmCategory.setFilmId(film.getFilmId());
-        filmCategory.setCategoryId(14L);
+        filmCategory.setCategoryId(categoryId);
 
         filmCategoryRepository.save(filmCategory);
 

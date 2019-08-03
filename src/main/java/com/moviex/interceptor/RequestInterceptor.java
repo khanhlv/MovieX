@@ -18,6 +18,12 @@ import java.lang.reflect.Method;
 public class RequestInterceptor extends HandlerInterceptorAdapter {
     private static final Logger logger = LoggerFactory.getLogger(RequestInterceptor.class);
 
+    private String token;
+
+    public RequestInterceptor(String token) {
+        this.token = token;
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (handler instanceof ResourceHttpRequestHandler) {
@@ -40,7 +46,7 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
 
                 String auth = request.getHeader("X-TOKEN-AUTH");
 
-                if (StringUtils.isEmpty(auth) || !StringUtils.equals(auth, "test")) {
+                if (StringUtils.isEmpty(auth) || !StringUtils.equals(auth, token)) {
                     logger.error("REST signature failed validation.");
                     throw new SystemException(new ResponseDto().withStatus(HttpServletResponse.SC_UNAUTHORIZED).withError("REST signature failed validation."));
                 }
@@ -48,5 +54,4 @@ public class RequestInterceptor extends HandlerInterceptorAdapter {
         }
         return true;
     }
-
 }
