@@ -1,15 +1,14 @@
 package com.moviex.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.moviex.model.Film;
+import com.moviex.service.repository.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.moviex.model.Film;
-import com.moviex.service.repository.FilmRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FilmService {
@@ -49,6 +48,14 @@ public class FilmService {
 
     public Film findFilmByFilmId(Long filmId){
         return filmRepository.findFilmByFilmId(filmId);
+    }
+
+    public Film findByFilmNameEN(String filmNameEN) {
+        return filmRepository.findByFilmNameEN(filmNameEN);
+    }
+
+    public Film findByFilmSource(String filmSource) {
+        return filmRepository.findByFilmSource(filmSource);
     }
 
 }

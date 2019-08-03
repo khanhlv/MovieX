@@ -1,14 +1,5 @@
 package com.moviex.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.moviex.dto.model.*;
 import com.moviex.dto.response.FilmCategoryResponseDto;
 import com.moviex.dto.response.FilmHomeResponseDto;
@@ -20,6 +11,14 @@ import com.moviex.service.FilmEpisodeService;
 import com.moviex.service.FilmService;
 import com.moviex.service.ServerService;
 import com.moviex.service.repository.FilmEpisodeServerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/film")
@@ -176,7 +175,7 @@ public class FilmController {
         filmDto.setFilmCountry(film.getFilmCountry());
         filmDto.setFilmTime(film.getFilmTime().toString());
         filmDto.setFilmTrailer(film.getFilmTrailer());
-        filmDto.setFilmYear(film.getFilmYear());
+        filmDto.setFilmYear(film.getFilmYear().toString());
         listData.add(filmDto);
     }
 

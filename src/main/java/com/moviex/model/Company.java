@@ -3,10 +3,10 @@ package com.moviex.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "COMPANY")
+@Table(name = "COMPANY", schema = "dbo")
 public class Company extends BaseModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "COMPANY_ID")
     private Long companyId;
 
@@ -24,6 +24,9 @@ public class Company extends BaseModel {
 
     @Column(name = "COMPANY_VIEW")
     private Long companyView;
+
+    @Column(name = "COMPANY_SOURCE")
+    private String companySource;
 
     public Long getCompanyId() {
         return companyId;
@@ -71,5 +74,13 @@ public class Company extends BaseModel {
 
     public void setCompanyView(Long companyView) {
         this.companyView = companyView;
+    }
+
+    public String getCompanySource() {
+        return companySource;
+    }
+
+    public void setCompanySource(String companySource) {
+        this.companySource = companySource;
     }
 }

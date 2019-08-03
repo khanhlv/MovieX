@@ -3,10 +3,10 @@ package com.moviex.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ACTOR")
+@Table(name = "ACTOR", schema = "dbo")
 public class Actor extends BaseModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "ACTOR_ID")
     private Long actorId;
 
@@ -27,6 +27,9 @@ public class Actor extends BaseModel {
 
     @Column(name = "ACTOR_VIEW")
     private Long actorView;
+
+    @Column(name = "ACTOR_SOURCE")
+    private String actorSource;
 
     public Long getActorId() {
         return actorId;
@@ -82,5 +85,13 @@ public class Actor extends BaseModel {
 
     public void setActorView(Long actorView) {
         this.actorView = actorView;
+    }
+
+    public String getActorSource() {
+        return actorSource;
+    }
+
+    public void setActorSource(String actorSource) {
+        this.actorSource = actorSource;
     }
 }

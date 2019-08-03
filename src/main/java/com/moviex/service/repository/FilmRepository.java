@@ -28,4 +28,8 @@ public interface FilmRepository extends CrudRepository<Film, Long> {
     Page<Film> findByCategoryWithPagination(Pageable pageable, @Param(value = "categoryId") Long categoryId);
 
     Film findFilmByFilmId(Long filmId);
+
+    Film findByFilmNameEN(String filmNameEN);
+
+    Film findByFilmSource(String filmSource);
 }

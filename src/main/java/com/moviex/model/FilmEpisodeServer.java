@@ -4,10 +4,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "FILM_EPISODE_SERVER")
+@Table(name = "FILM_EPISODE_SERVER", schema = "dbo")
 public class FilmEpisodeServer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "FILM_EPISODE_SERVER_ID")
     private Long filmEpisodeServerId;
 

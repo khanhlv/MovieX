@@ -3,10 +3,10 @@ package com.moviex.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "FILM_EPISODE")
+@Table(name = "FILM_EPISODE", schema = "dbo")
 public class FilmEpisode extends BaseModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "FILM_EPISODE_ID")
     private Long filmEpisodeId;
 

@@ -1,14 +1,13 @@
 package com.moviex.model;
 
+import javax.persistence.*;
 import java.util.Date;
 
-import javax.persistence.*;
-
 @Entity
-@Table(name = "FILM")
+@Table(name = "FILM", schema = "dbo")
 public class Film extends BaseModel {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "FILM_ID")
     private Long filmId;
 
@@ -40,7 +39,7 @@ public class Film extends BaseModel {
     private Long filmIMDB;
 
     @Column(name = "FILM_YEAR")
-    private String filmYear;
+    private Long filmYear;
 
     @Column(name = "FILM_COUNTRY")
     private String filmCountry;
@@ -59,6 +58,9 @@ public class Film extends BaseModel {
 
     @Column(name = "FILM_STATUS")
     private Long filmStatus;
+
+    @Column(name = "FILM_SOURCE")
+    private String filmSource;
 
     public Long getFilmId() {
         return filmId;
@@ -140,11 +142,11 @@ public class Film extends BaseModel {
         this.filmIMDB = filmIMDB;
     }
 
-    public String getFilmYear() {
+    public Long getFilmYear() {
         return filmYear;
     }
 
-    public void setFilmYear(String filmYear) {
+    public void setFilmYear(Long filmYear) {
         this.filmYear = filmYear;
     }
 
@@ -194,5 +196,13 @@ public class Film extends BaseModel {
 
     public void setFilmStatus(Long filmStatus) {
         this.filmStatus = filmStatus;
+    }
+
+    public String getFilmSource() {
+        return filmSource;
+    }
+
+    public void setFilmSource(String filmSource) {
+        this.filmSource = filmSource;
     }
 }
