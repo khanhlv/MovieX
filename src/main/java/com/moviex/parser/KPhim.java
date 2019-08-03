@@ -81,7 +81,7 @@ public class KPhim {
 //            System.out.println(kPhimList.getImage());
         });
 
-        System.out.println(elements.size());
+//        System.out.println(elements.size());
 
         return phimLists;
     }
@@ -100,10 +100,10 @@ public class KPhim {
         Elements elementsDescription = document.select(".gioi-thieu-phim");
         Elements elementsName = document.select(".movie-info-top");
 
-        Map<String, String> mapActor = new HashMap<>();
-        Map<String, String> mapCountry = new HashMap<>();
-        Map<String, String> mapDirector = new HashMap<>();
-        Map<String, String> mapEpisode = new HashMap<>();
+        Map<String, String> mapActor = new LinkedHashMap<>();
+        Map<String, String> mapCountry = new LinkedHashMap<>();
+        Map<String, String> mapDirector = new LinkedHashMap<>();
+        Map<String, String> mapEpisode = new LinkedHashMap<>();
 
         elementsActor.stream().forEach(v -> {
             mapActor.put(StringUtils.trim(v.text()), v.attr("href"));
@@ -135,7 +135,7 @@ public class KPhim {
 
         elementsEpisodes.stream().forEach(v -> {
             mapEpisode.put(StringUtils.trim(v.text()), v.attr("href"));
-//
+
 //            System.out.println(v.attr("href"));
 //            System.out.println(StringUtils.trim(v.text()));
         });
@@ -154,26 +154,25 @@ public class KPhim {
     }
 
     public static void main(String[] args) throws Exception {
-        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-han-quoc-z1.html");
-//        KPhimDetail kPhimDetail = new KPhim().readDetail("http://www.kphim.tv/phim-khi-ac-quy-goi-ten-vietsub.html");
-//
-//        kPhimDetail.getMapActor().forEach((v, k) -> {
-//            System.out.println(v);
-//        });
-//
-//        kPhimDetail.getMapCountry().forEach((v, k) -> {
-//            System.out.println(v);
-//        });
-//
-//        kPhimDetail.getMapDirector().forEach((v, k) -> {
-//            System.out.println(v);
-//        });
-//
-//        kPhimDetail.getMapEpisode().forEach((v, k) -> {
-//            System.out.println(k);
-//        });
-//
-//        System.out.println(kPhimDetail.getFilmDescription());
+//        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-han-quoc-z1.html");
+        KPhimDetail kPhimDetail = new KPhim().readDetail("http://www.kphim.tv/phim-pinocchio-vietsub.html");
+
+        kPhimDetail.getMapActor().forEach((v, k) -> {
+            System.out.println(v);
+        });
+
+        kPhimDetail.getMapCountry().forEach((v, k) -> {
+            System.out.println(v);
+        });
+
+        kPhimDetail.getMapDirector().forEach((v, k) -> {
+            System.out.println(v);
+        });
+
+        kPhimDetail.getMapEpisode().forEach((v, k) -> {
+            System.out.println(k);
+        });
+
 
     }
 }
