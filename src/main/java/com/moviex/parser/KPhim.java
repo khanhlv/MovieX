@@ -13,6 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,11 +40,16 @@ public class KPhim {
 
 //        System.out.println(mid);
 
+        //kphi + vid + ver + bo_diz_ca_nha_may_thang_get + sid
         Map<String, String> data = new HashMap<>();
         data.put("vid", vid);
         data.put("sid", sid);
         data.put("mid", mid);
-        Document documentFilm = Jsoup.connect("http://www.kphim.tv/player/"+ vid + mid +"/" + sid + mid + "/" + new Date().getTime()).data(data).post();
+
+        String md5 = DigestUtils.md5DigestAsHex(String.format("kphi%s%sbo_diz_ca_nha_may_thang_get%s",vid,mid,sid).getBytes());
+        md5 = md5.substring(2);
+        String urlPlay = "http://www.kphim.tv/player/"+ vid + mid +"/" + sid + mid + "/" + md5;
+        Document documentFilm = Jsoup.connect(urlPlay).data(data).post();
 
         String film = documentFilm.toString().replaceAll("\\s+", "");
         String keyIndexOf = "jwplayer('hkplayer" + sid + "').setup({sources:";
@@ -154,8 +160,9 @@ public class KPhim {
     }
 
     public static void main(String[] args) throws Exception {
+//        new KPhim().start("http://www.kphim.tv/xem-phim/lop-hoc-gia-doi-ep-1-vietsub.html");
 //        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-han-quoc-z1.html");
-        new KPhim().readList("http://www.kphim.tv/theloai/truyen-hinh-thuc-te-z2.html");
+//        new KPhim().readList("http://www.kphim.tv/theloai/truyen-hinh-thuc-te-z2.html");
 //        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-trung-quoc-z3.html");
 
 //        KPhimDetail kPhimDetail = new KPhim().readDetail("http://www.kphim.tv/phim-pinocchio-vietsub.html");
