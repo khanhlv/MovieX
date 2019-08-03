@@ -76,12 +76,12 @@ public class KPhim {
             kPhimList.setImage(v.select("img").attr("src"));
             phimLists.add(kPhimList);
 
-//            System.out.println(kPhimList.getTitle());
-//            System.out.println(kPhimList.getLink());
-//            System.out.println(kPhimList.getImage());
+            System.out.println(kPhimList.getTitle());
+            System.out.println(kPhimList.getLink());
+            System.out.println(kPhimList.getImage());
         });
 
-//        System.out.println(elements.size());
+        System.out.println(elements.size());
 
         return phimLists;
     }
@@ -155,26 +155,26 @@ public class KPhim {
 
     public static void main(String[] args) throws Exception {
 //        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-han-quoc-z1.html");
-//        new KPhim().readList("http://www.kphim.tv/theloai/truyen-hinh-thuc-te-z2.html");
+        new KPhim().readList("http://www.kphim.tv/theloai/truyen-hinh-thuc-te-z2.html");
 //        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-trung-quoc-z3.html");
 
-        KPhimDetail kPhimDetail = new KPhim().readDetail("http://www.kphim.tv/phim-pinocchio-vietsub.html");
-
-        kPhimDetail.getMapActor().forEach((v, k) -> {
-            System.out.println(v);
-        });
-
-        kPhimDetail.getMapCountry().forEach((v, k) -> {
-            System.out.println(v);
-        });
-
-        kPhimDetail.getMapDirector().forEach((v, k) -> {
-            System.out.println(v);
-        });
-
-        kPhimDetail.getMapEpisode().forEach((v, k) -> {
-            System.out.println(k);
-        });
+//        KPhimDetail kPhimDetail = new KPhim().readDetail("http://www.kphim.tv/phim-pinocchio-vietsub.html");
+//
+//        kPhimDetail.getMapActor().forEach((v, k) -> {
+//            System.out.println(v);
+//        });
+//
+//        kPhimDetail.getMapCountry().forEach((v, k) -> {
+//            System.out.println(v);
+//        });
+//
+//        kPhimDetail.getMapDirector().forEach((v, k) -> {
+//            System.out.println(v);
+//        });
+//
+//        kPhimDetail.getMapEpisode().forEach((v, k) -> {
+//            System.out.println(k);
+//        });
 
 
     }

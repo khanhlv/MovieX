@@ -9,6 +9,8 @@ import com.moviex.parser.bean.KPhimDetail;
 import com.moviex.parser.bean.KPhimList;
 import com.moviex.service.CrawlerService;
 import com.moviex.service.FilmService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/crawler")
+@Api(value = "/crawler", description = "API lay du lieu")
 public class CrawlerController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CrawlerController.class);
@@ -39,6 +42,9 @@ public class CrawlerController {
     }
 
     @PostMapping("/kphim/list")
+    @ApiOperation(
+            value = "Lay phim theo the loai cua trang KPhim.TV"
+    )
     public ResponseDto kPhimList(@RequestBody CrawlerRequestDto requestDto) {
         try {
             List<KPhimList> kPhimList = kPhim.readList(requestDto.getLink());
@@ -52,8 +58,11 @@ public class CrawlerController {
                             KPhimDetail kPhimDetail = kPhim.readDetail(v.getLink());
 
                             crawlerService.addFilm(kPhimDetail, NumberUtils.toLong(requestDto.getCategory()));
+
+                            LOGGER.info("#INSERT_LINK: " + v.getLink());
+                        } else {
+                            LOGGER.info("#EXISTS_LINK: " + v.getLink());
                         }
-                        LOGGER.info("#INSERT_LINK: " + v.getLink());
                     } catch (Exception ex) {
                         LOGGER.error("ERROR_LINK: " + v.getLink(), ex);
                     }
@@ -67,6 +76,9 @@ public class CrawlerController {
     }
 
     @PostMapping("/kphim/detail")
+    @ApiOperation(
+            value = "Lay thong tin chi tiet cua phim trang KPhim.TV"
+    )
     public KPhimDetail kPhimDetail(@RequestBody CrawlerRequestDto requestDto) {
         try {
             KPhimDetail kPhimDetail = kPhim.readDetail(requestDto.getLink());

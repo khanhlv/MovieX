@@ -11,6 +11,8 @@ import com.moviex.service.FilmEpisodeService;
 import com.moviex.service.FilmService;
 import com.moviex.service.ServerService;
 import com.moviex.service.repository.FilmEpisodeServerRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/film")
+@Api(value = "/film", description = "API phim")
 public class FilmController {
 
     @Autowired
@@ -37,6 +40,9 @@ public class FilmController {
     private FilmEpisodeServerRepository filmEpisodeServerRepository;
 
     @GetMapping("/list")
+    @ApiOperation(
+            value = "Danh sach phim moi nhat"
+    )
     public FilmResponseDto list(
             @RequestParam(name = "page", defaultValue = "0", required = false) Long page,
             @RequestParam(name = "limit", defaultValue = "10", required = false) Long limit) {
@@ -51,6 +57,9 @@ public class FilmController {
     }
 
     @GetMapping("/home")
+    @ApiOperation(
+            value = "Danh sach phim de cu, phim chieu rap, phim le, phim bo, phim hoat hinh"
+    )
     public FilmHomeResponseDto home() {
         List<FilmHomeDto> listData = new ArrayList<>();
         FilmHomeResponseDto responseDto = new FilmHomeResponseDto();
@@ -67,6 +76,9 @@ public class FilmController {
     }
 
     @GetMapping("/listIMDB")
+    @ApiOperation(
+            value = "Danh sach phim theo IMDB"
+    )
     public FilmCategoryResponseDto listIMDB(
             @RequestParam(name = "page", defaultValue = "0", required = false) Long page,
             @RequestParam(name = "limit", defaultValue = "10", required = false) Long limit) {
@@ -81,6 +93,9 @@ public class FilmController {
     }
 
     @GetMapping("/listByCategory")
+    @ApiOperation(
+            value = "Danh sach phim theo the loai"
+    )
     public FilmCategoryResponseDto listByCategory(
             @RequestParam(name = "categoryId", defaultValue = "0", required = false) Long categoryId,
             @RequestParam(name = "page", defaultValue = "0", required = false) Long page,
@@ -96,6 +111,9 @@ public class FilmController {
     }
 
     @GetMapping("/detail")
+    @ApiOperation(
+            value = "Chi tiet phim"
+    )
     public FilmResponseDto detail(
             @RequestParam(name = "filmId", defaultValue = "0", required = false) Long filmId) {
         List<FilmDto> listData = new ArrayList<>();
@@ -113,6 +131,9 @@ public class FilmController {
     }
 
     @GetMapping("/episode")
+    @ApiOperation(
+            value = "Danh sach tap cua phim"
+    )
     public ServerResponseDto episode(
             @RequestParam(name = "filmId", defaultValue = "0", required = false) Long filmId) {
         List<ServerDto> listData = new ArrayList<>();
