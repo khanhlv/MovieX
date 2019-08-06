@@ -46,6 +46,16 @@ public class FilmService {
         return filmList;
     }
 
+    public List<Film> searchKeywordWithPagination(String query, Long page, Long limit){
+
+        List<Film> filmList = new ArrayList<>();
+        Pageable pageable = PageRequest.of(page.intValue(), limit.intValue());
+
+        filmRepository.searchKeywordWithPagination(pageable, query).forEach(filmList::add);
+
+        return filmList;
+    }
+
     public Film findFilmByFilmId(Long filmId){
         return filmRepository.findFilmByFilmId(filmId);
     }

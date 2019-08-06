@@ -32,4 +32,10 @@ public interface FilmRepository extends CrudRepository<Film, Long> {
     Film findByFilmNameEN(String filmNameEN);
 
     Film findByFilmSource(String filmSource);
+
+    @Query(
+            value = "SELECT * FROM FILM WHERE STATUS = 1 AND (FILM_NAME_VN LIKE :query OR FILM_NAME_EN LIKE :query) BY CREATED_DATE DESC, FILM_IMDB DESC",
+            countQuery = "SELECT count(1) FROM FILM WHERE STATUS = 1",
+            nativeQuery = true)
+    Page<Film> searchKeywordWithPagination(Pageable pageable, @Param(value = "query") String query);
 }
