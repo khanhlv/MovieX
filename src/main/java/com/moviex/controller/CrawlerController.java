@@ -74,19 +74,4 @@ public class CrawlerController {
             return new ResponseDto().withStatus(-1).withError(ex.getMessage());
         }
     }
-
-    @PostMapping("/kphim/detail")
-    @ApiOperation(
-            value = "Lay thong tin chi tiet cua phim trang KPhim.TV"
-    )
-    public KPhimDetail kPhimDetail(@RequestBody CrawlerRequestDto requestDto) {
-        try {
-            KPhimDetail kPhimDetail = kPhim.readDetail(requestDto.getLink());
-
-            return kPhimDetail;
-        } catch (Exception ex) {
-            LOGGER.error("kPhim", ex);
-            return null;
-        }
-    }
 }

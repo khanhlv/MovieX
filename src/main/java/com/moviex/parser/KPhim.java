@@ -161,9 +161,10 @@ public class KPhim {
 
     public static void main(String[] args) throws Exception {
 //        new KPhim().start("http://www.kphim.tv/xem-phim/lop-hoc-gia-doi-ep-1-vietsub.html");
-//        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-han-quoc-z1.html");
-//        new KPhim().readList("http://www.kphim.tv/theloai/truyen-hinh-thuc-te-z2.html");
-//        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-trung-quoc-z3.html");
+
+//        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-han-quoc-z1.html"); // Category=14
+//        new KPhim().readList("http://www.kphim.tv/theloai/truyen-hinh-thuc-te-z2.html"); // Category=10
+//        new KPhim().readList("http://www.kphim.tv/theloai/phim-truyen-hinh-trung-quoc-z3.html"); // Category=13
 
 //        KPhimDetail kPhimDetail = new KPhim().readDetail("http://www.kphim.tv/phim-pinocchio-vietsub.html");
 //

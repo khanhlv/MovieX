@@ -27,9 +27,6 @@ public class CrawlerService {
     private ActorRepository actorRepository;
 
     @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Autowired
     private DirectorRepository directorRepository;
 
     @Autowired
@@ -59,6 +56,8 @@ public class CrawlerService {
         film.setStatus(1L);
         film.setCreatedDate(new Date());
         film.setCreatedUserId(1L);
+        film.setUpdatedDate(new Date());
+        film.setUpdatedUserId(1L);
 
         filmRepository.save(film);
 
@@ -94,16 +93,19 @@ public class CrawlerService {
 
         // Actor
         kPhimDetail.getMapActor().forEach((k, v) -> {
-            Actor actor = new Actor();
-            actor.setActorName(k);
-            actor.setActorDescription(k);
-            actor.setActorView(1L);
-            actor.setStatus(1L);
-            actor.setActorSource(v);
-            actor.setCreatedDate(new Date());
-            actor.setCreatedUserId(1L);
+            Actor actor = actorRepository.findActorByActorName(k);
+            if (actor == null) {
+                actor = new Actor();
+                actor.setActorName(k);
+                actor.setActorDescription(k);
+                actor.setActorView(1L);
+                actor.setStatus(1L);
+                actor.setActorSource(v);
+                actor.setCreatedDate(new Date());
+                actor.setCreatedUserId(1L);
 
-            actorRepository.save(actor);
+                actorRepository.save(actor);
+            }
 
             FilmActor filmActor = new FilmActor();
             filmActor.setCharacterName(k);
@@ -115,16 +117,20 @@ public class CrawlerService {
 
         // Director
         kPhimDetail.getMapDirector().forEach((k, v) -> {
-            Director director = new Director();
-            director.setDirectorImage(k);
-            director.setDirectorDescription(k);
-            director.setDirectorView(1L);
-            director.setStatus(1L);
-            director.setDirectorSource(v);
-            director.setCreatedDate(new Date());
-            director.setCreatedUserId(1L);
+            Director director = directorRepository.findDirectorByDirectorName(k);
 
-            directorRepository.save(director);
+            if (director == null) {
+                director = new Director();
+                director.setDirectorName(k);
+                director.setDirectorDescription(k);
+                director.setDirectorView(1L);
+                director.setStatus(1L);
+                director.setDirectorSource(v);
+                director.setCreatedDate(new Date());
+                director.setCreatedUserId(1L);
+
+                directorRepository.save(director);
+            }
 
             FilmDirector filmDirector = new FilmDirector();
             filmDirector.setDirectorId(director.getDirectorId());
