@@ -135,7 +135,7 @@ public class FilmController {
             value = "Tim kiem phim"
     )
     public FilmCategoryResponseDto search(
-            @RequestParam(name = "query", defaultValue = "0", required = false) String query,
+            @RequestParam(name = "query", defaultValue = "", required = false) String query,
             @RequestParam(name = "page", defaultValue = "0", required = false) Long page,
             @RequestParam(name = "limit", defaultValue = "10", required = false) Long limit) {
         List<FilmCategoryDto> listData = new ArrayList<>();

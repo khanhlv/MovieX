@@ -51,7 +51,7 @@ public class FilmService {
         List<Film> filmList = new ArrayList<>();
         Pageable pageable = PageRequest.of(page.intValue(), limit.intValue());
 
-        filmRepository.searchKeywordWithPagination(pageable, query).forEach(filmList::add);
+        filmRepository.searchKeywordWithPagination(pageable, "%" + query + "%").forEach(filmList::add);
 
         return filmList;
     }
