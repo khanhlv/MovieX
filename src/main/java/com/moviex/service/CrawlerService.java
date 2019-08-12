@@ -3,6 +3,7 @@ package com.moviex.service;
 import com.moviex.model.*;
 import com.moviex.parser.bean.KPhimDetail;
 import com.moviex.service.repository.*;
+import com.moviex.utils.StringUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,10 @@ public class CrawlerService {
         film.setCreatedUserId(1L);
         film.setUpdatedDate(new Date());
         film.setUpdatedUserId(1L);
+        film.setMetaUrl(StringUtil.stripAccents(film.getFilmNameVN(), "-"));
+        film.setMetaTitle(String.format("%s (%s)", film.getFilmNameVN(), film.getFilmNameEN()));
+        film.setMetaDescription(String.format("%s (%s)", film.getFilmNameVN(), film.getFilmNameEN()));
+        film.setMetaKeyword(StringUtil.stripAccents(film.getFilmNameVN()));
 
         filmRepository.save(film);
 
